@@ -12,6 +12,7 @@ extra-deps:
       - tonatona-persistent-postgresql
       - tonatona-persistent-sqlite
       - tonatona-servant
+  - mime-mail-0.4.11@sha256:8c627e0cf4c1e9b6adf589cf018f066d4a7abbafc55d3c09b7b81b6585b6d23b,1586
 
 flags: {}
 extra-package-dbs: []

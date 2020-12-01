@@ -10,13 +10,14 @@ module TonaApp.Mail
     ( EmailAddress(..)
     , mkAddress
     , sendMailWithSendmail
-    , simpleHtmlMailWithReplyTo
     , simpleMailWithReplyTo
     ) where
 
 import Tonalude
 
+import qualified Tonatona.Logger as TonaLogger
 -- import Control.Concurrent (forkIO)
+import Control.Concurrent (threadDelay)
 import UnliftIO.Concurrent (forkIO)
 import Network.Mail.Mime
 
@@ -32,7 +33,10 @@ newtype EmailAddress = EmailAddress { unEmailAddress :: Text }
 
 sendMailWithSendmail :: EmailAddress -> EmailAddress -> Mail -> AppM ()
 sendMailWithSendmail _toEmailAddr _fromEmailAddr mail =
-    void . forkIO . liftIO $ renderSendMail mail
+    void . forkIO $ do
+      -- TonaLogger.logDebug $ display ("sending" :: Text)
+      liftIO $ renderSendMail mail
+      TonaLogger.logDebug $ display ("sent" :: Text)
 
 -- | Simple wrapper for creating a 'Mail' with a @Reply-To@ header and a plain-text body.
 simpleMailWithReplyTo :: Address -> Address -> Address -> Text -> LText -> Mail
@@ -41,15 +45,17 @@ simpleMailWithReplyTo to from replyTo subject body =
     in mail { mailHeaders = mailHeaders mail <> [("Reply-To", renderAddress replyTo)] }
 
 
--- | Simple wrapper for creating a 'Mail' with a @Reply-To@ header and an HTML body.
-simpleHtmlMailWithReplyTo :: Address -> Address -> Address -> Text -> LText -> Mail
-simpleHtmlMailWithReplyTo to from replyTo subject body =
-    let
-      mail = simpleMailInMemory to from subject "" body []
-    in
-    mail { mailHeaders = mailHeaders mail <> [("Reply-To", renderAddress replyTo)] }
-
-
 -- | Helper to make an 'Address' with no name.
 mkAddress :: Text -> Address
 mkAddress email = Address { addressName = Nothing, addressEmail = email }
+
+
+
+
+
+_dummyOfRenderSendMail :: Mail -> IO ()
+_dummyOfRenderSendMail _ =
+  sleep 3
+
+sleep :: Int -> IO ()
+sleep = threadDelay . (1000 * 1000 *)

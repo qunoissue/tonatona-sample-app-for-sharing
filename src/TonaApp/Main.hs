@@ -11,7 +11,7 @@ import qualified Tonatona.Servant as TonaServant
 
 import Control.Concurrent (threadDelay)
 import Servant
--- import UnliftIO.Concurrent (forkIO)
+import UnliftIO.Concurrent (forkIO)
 
 import TonaApp.Config (AppM)
 import TonaApp.Mail
@@ -28,7 +28,7 @@ app = do
     ("About to run web server on port " <> display port <> " ...")
   TonaServant.run @API server
 
-type API = Post '[JSON] ()
+type API = Get '[JSON] ()
 
 server :: ServerT API AppM
 server = main
@@ -43,9 +43,11 @@ main = do
 
 someProcess :: AppM ()
 someProcess = do
-  -- void . forkIO $ process5sec
+  void . forkIO $ process5sec
   mailProcess
   TonaLogger.logDebug $ display ("foooo" :: Text)
+  void . forkIO $ process5sec
+  TonaLogger.logDebug $ display ("bar" :: Text)
   pure ()
 
 mailProcess :: AppM ()
@@ -60,12 +62,12 @@ mailProcess = do
   sendMailWithSendmail to' from' mail
 
 
--- process5sec :: AppM ()
--- process5sec = do
---   TonaLogger.logDebug $ display ("process5sec started." :: Text)
---   sleep 5
---   TonaLogger.logDebug $ display ("process5sec finished." :: Text)
---   pure ()
+process5sec :: AppM ()
+process5sec = do
+  TonaLogger.logDebug $ display ("process5sec started." :: Text)
+  sleep 5
+  TonaLogger.logDebug $ display ("process5sec finished." :: Text)
+  pure ()
 
 
 sleep :: Int -> RIO env ()

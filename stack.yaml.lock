@@ -95,6 +95,13 @@ packages:
     subdir: tonatona-servant
     git: https://github.com/tonatona-project/tonatona
     commit: cf8c12c73a993346a0f682000ec04f71158247cc
+- completed:
+    hackage: mime-mail-0.4.11@sha256:8c627e0cf4c1e9b6adf589cf018f066d4a7abbafc55d3c09b7b81b6585b6d23b,1586
+    pantry-tree:
+      size: 438
+      sha256: 1b79e7764c8cc8607f4b9c01185caba7fb8e0fc7465f13503ddedf88bb7aabce
+  original:
+    hackage: mime-mail-0.4.11@sha256:8c627e0cf4c1e9b6adf589cf018f066d4a7abbafc55d3c09b7b81b6585b6d23b,1586
 snapshots:
 - completed:
     size: 532172
