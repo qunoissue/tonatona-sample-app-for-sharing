@@ -18,17 +18,10 @@ $(share
   Company
     name             Text
     tel              Text
-    -- data1            Text
+    data1            Text
 
     deriving Eq
     deriving Show
 
-  -- Employee
-  --   name             Text
-  --   tel              Text
-  --   company          CompanyId
-  --
-  --   deriving Eq
-  --   deriving Show
   |]
  )
