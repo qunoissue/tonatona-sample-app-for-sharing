@@ -15,6 +15,7 @@ import UnliftIO.Concurrent (forkIO)
 
 import TonaApp.Config (AppM)
 import TonaApp.Mail
+import TonaApp.Type
 
 
 
@@ -28,27 +29,18 @@ app = do
     ("About to run web server on port " <> display port <> " ...")
   TonaServant.run @API server
 
-type API = Get '[JSON] ()
+type API = Get '[JSON] Response
 
 server :: ServerT API AppM
 server = main
 
 
 
-main :: AppM ()
+main :: AppM Response
 main = do
-  someProcess
-  TonaLogger.logDebug $ display ("barrrrr" :: Text)
-  pure ()
-
-someProcess :: AppM ()
-someProcess = do
-  void . forkIO $ process5sec
-  mailProcess
-  TonaLogger.logDebug $ display ("foooo" :: Text)
-  void . forkIO $ process5sec
-  TonaLogger.logDebug $ display ("bar" :: Text)
-  pure ()
+  -- pure $ Response $ StatusA "foo"
+  pure $ Response $ StatusA "foo" "bar"
+  -- pure $ Response $ StatusB
 
 mailProcess :: AppM ()
 mailProcess = do

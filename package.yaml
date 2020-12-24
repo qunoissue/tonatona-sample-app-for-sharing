@@ -54,6 +54,7 @@ default-extensions:
 
 dependencies:
   - base >= 4.7 && < 5
+  - aeson
   - mime-mail == 0.4.11
   - servant
   - servant-server
