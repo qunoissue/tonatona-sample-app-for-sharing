@@ -54,13 +54,14 @@ default-extensions:
 
 dependencies:
   - base >= 4.7 && < 5
-  - aeson
+  - bson
   - mime-mail == 0.4.11
-  - persistent
-  - persistent-template
+  - mongoDB
   - servant
   - servant-server
+  - text
   - tonalude
+  - tonaparser
   - tonatona
   - tonatona-logger
   - tonatona-persistent-postgresql
